@@ -18,19 +18,23 @@ app.delete('/params/:id', (req, res) =>{
     res.send(` ${id} removido.`)
 })
 
-app.put('/atualizar/:id', (req, res) =>{ //https://www.geeksforgeeks.org/express-js-app-put-function/?ref=gcse_ind
-    const {id} = req.params //pega o id
+app.put('/atualizar/:id', (req, res) =>{ //https://www.geeksforgeeks.org/difference-between-put-and-post-http-request-in-express-and-postman/?ref=gcse_ind
+    const {id} = req.params
     const {name, age} = req.body
+    const index = parseInt(id) //converte o id em número(?)
 
-    if (personList[id]) {
-        personList[id] = {name, age} //atualiza o nome e a idade
-        res.send(`Usuário ${id} atualizado com sucesso.`) 
+    console.log(id)
+
+    if (index >= 0 && index < personList.length) //usar o "id" ou o "req.params" não funcionava, "index" OK
+    {// verifica se o index é 0 ou maior e menor que o total da lista
+        personList[index] = {name, age} //atualiza o nome e a idade
+        res.send(`Usuário ${id} atualizado com sucesso.`)
     }
     else
     {
         res.send('Usuário não encontrado.')
     }
-}) //* testar no postman *//
+}) //tinha esquecido de tirar ":" da url no postman =(
 
 app.post("/cadastrar", (req, res) =>{ //método http post | ("/") = endpoint
     const {name, age} = req.body
@@ -42,4 +46,4 @@ app.listen(port, () =>{ //"escutar" a porta
     console.log(`Example app listening on port ${port}`)
 })
 
-console.log("Hell!")
+console.log("")
